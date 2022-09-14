@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
-import 'package:library_user_app/views/Widgets/app_title.dart';
-import 'package:library_user_app/views/home/popup_menu_account.dart';
-import 'package:library_user_app/views/home/image_slide.dart';
+import 'package:library_user_app/view/widget/app_title.dart';
+import 'package:library_user_app/view/widget/popup_menu_account.dart';
+import 'package:library_user_app/view/widget/image_slide.dart';
 
 class HomePage extends StatelessWidget {
   @override

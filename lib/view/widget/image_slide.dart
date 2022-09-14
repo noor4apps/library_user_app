@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
-import 'package:library_user_app/views/Widgets/app_title.dart';
+import 'package:library_user_app/view/widget/app_title.dart';
 
 class ImageSlide extends StatelessWidget {
   const ImageSlide({Key? key}) : super(key: key);
