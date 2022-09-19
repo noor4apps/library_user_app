@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_user_app/app/Controller/client_paginate_controller.dart';
+import 'package:library_user_app/app/Model/book_model.dart';
+import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/image_banner.dart';
@@ -56,44 +59,94 @@ class GridPage extends StatelessWidget {
 
   Widget buildBookList() {
     return Column(
-      children:<Widget>[
-        Container(
-          height: Get.height / 1.8,
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: List.generate(10, (index) {
-              return buildBookCard();
-            }),
-          )
-        ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
+          return clientPaginate.isLoading ?
+          Container(
+            height: Get.height / 1.8,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: ListView.separated(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: false,
+              itemBuilder: (context, index) {
+                int halfIndex = clientPaginate.clientPaginateList.length ~/ 2;
+                return Column(
+                  children: [
+                    buildBookCard(bookModel: clientPaginate.clientPaginateList[index]),
+                    SizedBox(height: 10),
+                    buildBookCard(bookModel: clientPaginate.clientPaginateList[halfIndex + index])
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(width: 10);
+              },
+              itemCount: clientPaginate.clientPaginateList.length ~/ 2,
+            ),
+          ) : CircularProgressIndicator(color: AppColors.textPrimary);
+        })
       ],
     );
   }
 
-  Widget buildBookCard() {
+  Widget buildBookCard({required BookModel bookModel}) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+      },
       child: Container(
-        height: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children:<Widget>[
+        width: Get.width - 40,
+        height: Get.height / 3.7,
+        child: Row(
+          children: [
             Container(
-              padding: EdgeInsets.only(left: 5, right: 5),
-              width: double.infinity,
-              height: Get.height / 5.8,
+              width: Get.width / 3,
+              height: double.infinity,
               child: Stack(
-                children:<Widget>[
-                  Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  Image.asset('assets/image/ph-sm.jpg', fit: BoxFit.fill, width: double.infinity, height: double.infinity),
+                alignment: Alignment.bottomLeft,
+                children: [
+                  Center(child: CircularProgressIndicator()),
+                  Image.network('${AppConstants.BASE_URL}/storage/${bookModel.cover}', fit: BoxFit.fill, width: double.infinity, height: double.infinity),
                 ],
               ),
             ),
-            SizedBox(height: Dimensions.height5),
-            Text('Lorem Ipso available alteration', style: TextStyle(fontSize: Dimensions.font16, color: AppColors.textPrimary), overflow: TextOverflow.ellipsis, maxLines: 1),
-            IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border))
+            SizedBox(width: 6),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: Text('${bookModel.title}', style: TextStyle(fontSize: Dimensions.font16, color: AppColors.textPrimary, fontWeight: FontWeight.bold), maxLines: 3, overflow: TextOverflow.ellipsis,)),
+                  Row(
+                    children: [
+                      Expanded(child: Text('ISBN:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
+                      Text('${bookModel.isbn}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: Text('Edition:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
+                      Text('${bookModel.edition}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: Text('Volume:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
+                      Text('${bookModel.volume}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: Text('Quantity:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
+                      Text('${bookModel.quantity}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                    ],
+                  ),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border, color: AppColors.iconPrimary, size: Dimensions.iconSize24))
+                ],
+              ),
+            ),
           ],
         ),
       ),

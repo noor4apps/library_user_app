@@ -9,6 +9,7 @@ class AppConstants {
   static const String BASE_URL = "http://192.168.1.3/online-library/public";
 
   static const String CLIENT_INDEX_URL = '/api/client';
+  static const String CLIENT_PAGINATE_URL = '/api/client/grid';
 
   static const String TOKEN = "token";
 }

@@ -22,9 +22,6 @@ class ClientIndexController extends GetxController {
       clientIndexList.clear();
       clientIndexList.addAll(Book.fromJson(response.body).bookList!);
       _isLoading = true;
-      _clientIndexList.forEach((element) {
-        print(element.title);
-      });
       update();
     } else if (response.isOk == false) {
       showCustomSnackBar(message: 'Server not found');
