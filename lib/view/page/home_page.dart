@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Controller/client_index_controller.dart';
 import 'package:library_user_app/app/Model/book_model.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
@@ -101,7 +102,9 @@ class HomePage extends StatelessWidget {
 
   Widget buildBookCard(int index,BookModel bookModel) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(RouteHelper.getBook(index));
+      },
       child: Container(
         height: double.infinity,
         width: Get.width / 3,

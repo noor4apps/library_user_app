@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_user_app/app/Controller/client_index_controller.dart';
+import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/image_banner.dart';
 import 'package:library_user_app/view/widget/popup_menu_account.dart';
 
 class BookPage extends StatelessWidget {
+  final int pageId;
+  const BookPage({Key? key, required this.pageId}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +61,7 @@ class BookPage extends StatelessWidget {
   }
 
   Widget buildBookCard() {
+    var book = Get.find<ClientIndexController>().clientIndexList[pageId];
     return InkWell(
       onTap: () {},
       child: Container(
@@ -80,7 +86,7 @@ class BookPage extends StatelessWidget {
                             Center(
                               child: CircularProgressIndicator(),
                             ),
-                            Image.asset('assets/image/ph-lg.jpg', fit: BoxFit.fill, width: double.infinity, height: double.infinity),
+                            Image.network('${AppConstants.BASE_URL}/storage/${book.cover}', fit: BoxFit.fill, width: double.infinity, height: double.infinity),
                           ],
                         ),
                       ),
@@ -93,7 +99,7 @@ class BookPage extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: Get.width - Get.width / 2.5,
-                        child: Text('Lorem Ipso available alteration Ipso available alteration Ipso available alteration 1', style: TextStyle(fontSize: Dimensions.font16, color: AppColors.textPrimary),
+                        child: Text('${book.title}', style: TextStyle(fontSize: Dimensions.font16, color: AppColors.textPrimary),
                         ),
                       ),
                       SizedBox(height: Dimensions.height5),
@@ -120,25 +126,25 @@ class BookPage extends StatelessWidget {
                       Row(
                         children: [
                           Container(width: Get.width - Get.width / 1.5, child: Text('ISBN:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
-                          Text('0656865059', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                          Text('${book.isbn}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
                         ],
                       ),
                       Row(
                         children: [
                           Container(width: Get.width - Get.width / 1.5, child: Text('Edition:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
-                          Text('V2', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                          Text('${book.edition}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
                         ],
                       ),
                       Row(
                         children: [
                           Container(width: Get.width - Get.width / 1.5, child: Text('Volume:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
-                          Text('N1', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                          Text('${book.volume}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
                         ],
                       ),
                       Row(
                         children: [
                           Container(width: Get.width - Get.width / 1.5, child: Text('Quantity:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold))),
-                          Text('4', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
+                          Text('${book.quantity}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
                         ],
                       ),
                     ],
