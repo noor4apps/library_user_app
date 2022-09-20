@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Controller/client_paginate_controller.dart';
 import 'package:library_user_app/app/Model/book_model.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
@@ -73,11 +74,12 @@ class GridPage extends StatelessWidget {
               shrinkWrap: false,
               itemBuilder: (context, index) {
                 int halfIndex = clientPaginate.clientPaginateList.length ~/ 2;
+                int index2 = halfIndex + index;
                 return Column(
                   children: [
-                    buildBookCard(bookModel: clientPaginate.clientPaginateList[index]),
+                    buildBookCard(index: index, bookModel: clientPaginate.clientPaginateList[index]),
                     SizedBox(height: 10),
-                    buildBookCard(bookModel: clientPaginate.clientPaginateList[halfIndex + index])
+                    buildBookCard(index: index2,bookModel: clientPaginate.clientPaginateList[index2])
                   ],
                 );
               },
@@ -92,9 +94,10 @@ class GridPage extends StatelessWidget {
     );
   }
 
-  Widget buildBookCard({required BookModel bookModel}) {
+  Widget buildBookCard({required int index, required BookModel bookModel}) {
     return InkWell(
       onTap: () {
+        Get.toNamed(RouteHelper.getBook(index));
       },
       child: Container(
         width: Get.width - 40,

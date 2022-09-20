@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:get/get.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/app_title.dart';
@@ -36,7 +38,9 @@ class ImageSlide extends StatelessWidget {
                   AppTitle('Borrow', 'Your'),
                   AppTitle('favorite', 'Book'),
                   AppTitle('from', 'Here'),
-                  TextButton(onPressed: () {}, child: Text('choose now  --->', style: TextStyle(color: AppColors.textPrimary)))
+                  TextButton(onPressed: () {
+                    Get.toNamed(RouteHelper.getGrid());
+                  }, child: Text('choose now  --->', style: TextStyle(color: AppColors.textPrimary)))
                 ],
               ),
             ),          ],
@@ -61,7 +65,9 @@ class ImageSlide extends StatelessWidget {
                   AppTitle('Borrow', 'Your'),
                   AppTitle('favorite', 'Book'),
                   AppTitle('from', 'Here'),
-                  TextButton(onPressed: () {}, child: Text('choose now  --->', style: TextStyle(color: AppColors.textPrimary)))
+                  TextButton(onPressed: () {
+                    Get.toNamed(RouteHelper.getGrid());
+                  }, child: Text('choose now  --->', style: TextStyle(color: AppColors.textPrimary)))
                 ],
               ),
             ),
