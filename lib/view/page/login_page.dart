@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Controller/auth_controller.dart';
+import 'package:library_user_app/app/Model/signin_body_model.dart';
 import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
@@ -31,7 +32,10 @@ class LoginPage extends StatelessWidget {
       } else if (password.length < 8) {
         showCustomSnackBar(title: 'Password length', message: 'Password can not be less than 8 characters');
       } else {
-        authController.login(email, password).then((responseModel) {
+
+        SignInBodyModel signInBodyModel = SignInBodyModel(email: email, password: password);
+
+        authController.login(signInBodyModel).then((responseModel) {
           if (responseModel.error == 0) {
             Get.toNamed(RouteHelper.getInitial());
             showCustomSnackBar(title: 'Success',message: responseModel.message, isError: false);
@@ -39,6 +43,7 @@ class LoginPage extends StatelessWidget {
             showCustomSnackBar(message: responseModel.message);
           }
         });
+
       }
     }
 
@@ -110,7 +115,6 @@ class LoginPage extends StatelessWidget {
                     TextSpan(
                       recognizer: TapGestureRecognizer()..onTap = () {
                         Get.toNamed(RouteHelper.getRegister());
-                        print('click');
                       },
                       text: ' Create',
                       style: TextStyle(color: AppColors.textPrimary, fontSize: Dimensions.font20, fontWeight: FontWeight.bold),

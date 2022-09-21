@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:library_user_app/app/Model/signin_body_model.dart';
 import 'package:library_user_app/app/Model/signup_body_model.dart';
 import 'package:library_user_app/app/api_client.dart';
 import 'package:library_user_app/utils/app_constants.dart';
@@ -23,9 +24,8 @@ class AuthRepo {
     return await sharedPreferences.setString(AppConstants.TOKEN, token);
   }
 
-  Future<Response> login(String email, String password) async {
-    return await apiClient.postData(AppConstants.LOGIN_URI, {"email": email, "password": password});
-    // TODO: create model sign-in
+  Future<Response> login(SignInBodyModel) async {
+    return await apiClient.postData(AppConstants.LOGIN_URI, SignInBodyModel.toJson());
   }
 
   Future<void> saveUserEmailAndPassword(String email, String password) async {
