@@ -1,9 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_user_app/app/Controller/auth_controller.dart';
+import 'package:library_user_app/app/Model/signup_body_model.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/app_text_field.dart';
+import 'package:library_user_app/view/widget/custom_loader.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -26,7 +30,7 @@ class RegisterPage extends StatelessWidget {
       String address = addressController.text.trim();
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
-      String passwordConfirmation = passwordController.text.trim();
+      String passwordConfirmation = passwordConfirmationController.text.trim();
 
       if (firstName.isEmpty) {
         showCustomSnackBar(title: 'First Name', message: 'Type in your first name');
@@ -47,127 +51,135 @@ class RegisterPage extends StatelessWidget {
       } else if (password != passwordConfirmation) {
         showCustomSnackBar(title: 'Password confirmation', message: 'The password confirmation does not match.');
       } else {
-        // SignUpBody signUpBody = SignUpBody(name: name, phone: phone, email: email, password: password);
+        SignUpBodyModel signUpBodyModel = SignUpBodyModel(first_name: firstName, last_name: lastName, contact_number:contactNumber,address: address, email: email, password: password, password_confirmation: passwordConfirmation);
 
-        authController.registration().then((status) {
-          if(status.isSuccess) {
-            // Get.offNamed();
+        authController.registration(signUpBodyModel).then((responseModel) {
+          if(responseModel.error == 0) {
+            Get.offNamed(RouteHelper.getInitial());
+            showCustomSnackBar(title: 'Success',message: responseModel.message, isError: false);
           } else {
-            showCustomSnackBar(message: status.message);
+            showCustomSnackBar(message: responseModel.message);
           }
         });
+
       }
     }
 
     return Scaffold(
         backgroundColor: AppColors.bg,
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(height: Dimensions.height20),
-              Container(
-                height: Get.height / 8,
-                color: AppColors.bg,
-                child: Stack(
-                  children: [
-                    Center(
-                        child: Text('Let\'s do something special...', style: TextStyle(fontSize: Dimensions.font20, color: AppColors.textPrimary))),
-                    IconButton(
-                      padding: EdgeInsets.only(top: 30, left: 15, right: 15),
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: Icon(Icons.arrow_back, size: 30),
-                    )
-                  ],
+        body: GetBuilder<AuthController>(builder: (_authController) {
+          return !_authController.isLoading
+              ?
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(height: Dimensions.height20),
+                Container(
+                  height: Get.height / 8,
+                  color: AppColors.bg,
+                  child: Stack(
+                    children: [
+                      Center(
+                          child: Text('Let\'s do something special...', style: TextStyle(fontSize: Dimensions.font20, color: AppColors.textPrimary))),
+                      IconButton(
+                        padding: EdgeInsets.only(top: 30, left: 15, right: 15),
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(Icons.arrow_back, size: 30),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              // First Name
-              AppTextField(
+                // First Name
+                AppTextField(
                   textEditingController: firstNameController,
                   hintText: 'First Name',
                   icon: Icons.person,
-              ),
-              SizedBox(height: Dimensions.height20),
-              // Last Name
-              AppTextField(
+                ),
+                SizedBox(height: Dimensions.height20),
+                // Last Name
+                AppTextField(
                   textEditingController: lastNameController,
                   hintText: 'Last Name',
                   icon: Icons.person_pin_outlined,
-              ),
-              SizedBox(height: Dimensions.height20),
+                ),
+                SizedBox(height: Dimensions.height20),
 
-              // Contact Number
-              AppTextField(
+                // Contact Number
+                AppTextField(
                   textEditingController: contactNumberController,
                   hintText: 'Contact Number',
                   icon: Icons.phone,
-              ),
-              SizedBox(height: Dimensions.height20),
+                ),
+                SizedBox(height: Dimensions.height20),
 
-              // Address
-              AppTextField(
+                // Address
+                AppTextField(
                   textEditingController: addressController,
                   hintText: 'Address',
                   icon: Icons.add_location,
-              ),
-              SizedBox(height: Dimensions.height20),
+                ),
+                SizedBox(height: Dimensions.height20),
 
-              // Email
-              AppTextField(
+                // Email
+                AppTextField(
                   textEditingController: emailController,
                   hintText: 'Email',
                   icon: Icons.email,
-              ),
-              SizedBox(height: Dimensions.height20),
+                ),
+                SizedBox(height: Dimensions.height20),
 
-              // Password
-              AppTextField(
+                // Password
+                AppTextField(
                   isObscure: true,
                   textEditingController: passwordController,
                   hintText: 'Password',
                   icon: Icons.password,
-              ),
-              SizedBox(height: Dimensions.height20),
+                ),
+                SizedBox(height: Dimensions.height20),
 
-              // Confirm Password
-              AppTextField(
+                // Confirm Password
+                AppTextField(
                   isObscure: true,
                   textEditingController: passwordConfirmationController,
                   hintText: 'Confirm Password',
                   icon: Icons.password,
-              ),
-              SizedBox(height: Dimensions.height20),
+                ),
+                SizedBox(height: Dimensions.height20),
 
-              // sign up button
-              GestureDetector(
-                onTap: () {
-                  _registration(true);
-                },
-                child: Container(
-                  width: Dimensions.screenWidth / 2,
-                  height: Dimensions.screenHeight / 13,
-                  decoration: BoxDecoration(
+                // sign up button
+                GestureDetector(
+                  onTap: () {
+                    _registration(_authController);
+                  },
+                  child: Container(
+                    width: Dimensions.screenWidth / 2,
+                    height: Dimensions.screenHeight / 13,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.radius30),
                       color: AppColors.iconPrimary,
+                    ),
+                    child: Center(child: Text('Sign up', style: TextStyle(fontSize: Dimensions.font26, color: Colors.white))),
                   ),
-                  child: Center(child: Text('Sign up', style: TextStyle(fontSize: Dimensions.font26, color: Colors.white))),
                 ),
-              ),
-              SizedBox(height: Dimensions.height10),
-              // have an account
-              RichText(
-                text: TextSpan(
-                  recognizer: TapGestureRecognizer()..onTap = () => Get.back(),
-                  text: 'Have an account already?',
-                  style: TextStyle(color: Colors.grey[500], fontSize: Dimensions.font20),
+                SizedBox(height: Dimensions.height10),
+                // have an account
+                RichText(
+                  text: TextSpan(
+                    recognizer: TapGestureRecognizer()..onTap = () => Get.back(),
+                    text: 'Have an account already?',
+                    style: TextStyle(color: Colors.grey[500], fontSize: Dimensions.font20),
+                  ),
                 ),
-              ),
-              SizedBox(height: Dimensions.screenHeight * 0.09),
-            ],
-          ),
-        )
+                SizedBox(height: Dimensions.screenHeight * 0.09),
+              ],
+            ),
+          )
+              :
+          CustomLoader();
+        }),
 
         // CustomLoader();
         );
