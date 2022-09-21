@@ -6,7 +6,7 @@ import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/view/page/grid_page.dart';
 import 'package:library_user_app/helper/dependencies.dart' as dep;
 import 'package:library_user_app/view/page/home_page.dart';
-import 'package:library_user_app/view/page/register_page.dart';
+import 'package:library_user_app/view/page/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: RegisterPage(),
+      home: LoginPage(),
       initialRoute: RouteHelper.initial,
       getPages: RouteHelper.routes,
     );

@@ -22,4 +22,22 @@ class AuthRepo {
     apiClient.updateHeader(token);
     return await sharedPreferences.setString(AppConstants.TOKEN, token);
   }
+
+  Future<Response> login(String email, String password) async {
+    return await apiClient.postData(AppConstants.LOGIN_URI, {"email": email, "password": password});
+    // TODO: create model sign-in
+  }
+
+  Future<void> saveUserEmailAndPassword(String email, String password) async {
+    try {
+      await sharedPreferences.setString(AppConstants.EMAIL, email);
+      await sharedPreferences.setString(AppConstants.PASSWORD, password);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<String> getUserToken() async {
+    return await sharedPreferences.getString(AppConstants.TOKEN) ?? '';
+  }
 }

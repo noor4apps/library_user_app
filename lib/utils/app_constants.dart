@@ -12,6 +12,10 @@ class AppConstants {
   static const String CLIENT_PAGINATE_URL = '/api/client/grid';
 
   static const String REGISTRATION_URI = "/api/auth/register";
+  static const String LOGIN_URI = "/api/auth/login";
+
 
   static const String TOKEN = "token";
+  static const String EMAIL  = "email";
+  static const String PASSWORD  = "password";
 }
