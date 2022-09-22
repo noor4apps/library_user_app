@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: LoginPage(),
+      home: HomePage(),
       initialRoute: RouteHelper.initial,
       getPages: RouteHelper.routes,
     );

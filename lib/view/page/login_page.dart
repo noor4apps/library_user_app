@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
 
         authController.login(signInBodyModel).then((responseModel) {
           if (responseModel.error == 0) {
-            Get.toNamed(RouteHelper.getInitial());
+            Get.offNamed(RouteHelper.getInitial());
             showCustomSnackBar(title: 'Success',message: responseModel.message, isError: false);
           } else {
             showCustomSnackBar(message: responseModel.message);

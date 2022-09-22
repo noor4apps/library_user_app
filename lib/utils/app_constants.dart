@@ -13,6 +13,7 @@ class AppConstants {
 
   static const String REGISTRATION_URI = "/api/auth/register";
   static const String LOGIN_URI = "/api/auth/login";
+  static const String LOGOUT_URI = "/api/auth/logout";
 
 
   static const String TOKEN = "token";

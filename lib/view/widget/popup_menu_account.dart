@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:library_user_app/app/Controller/auth_controller.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/dimensions.dart';
+import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 
 class PopupMenuAccount extends StatelessWidget {
+  var isLogin = Get.find<AuthController>().isUserLoggedIn();
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
@@ -11,46 +16,60 @@ class PopupMenuAccount extends StatelessWidget {
         PopupMenuItem(child: Text('MY ACCOUNT')),
         // Divider
         PopupMenuDivider(),
+        if(!isLogin)
         // Login
-        PopupMenuItem(
+          PopupMenuItem(
           child: GestureDetector(
             child: Text('Login'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute<void>(
-                builder: (BuildContext context) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Title Login'),
-                    ),
-                    body: Center(
-                      child: Text('This is the next page Login', style: TextStyle(fontSize: Dimensions.font24)),
-                    ),
-                  );
-                },
-              ));
+              Get.toNamed(RouteHelper.getLogin());
             },
           ),
         ),
+        if(!isLogin)
         // Register
-        PopupMenuItem(
+          PopupMenuItem(
           child: GestureDetector(
             child: Text('Register'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute<void>(
-                builder: (BuildContext context) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Title Register'),
-                    ),
-                    body: Center(
-                      child: Text('This is the next page Register', style: TextStyle(fontSize: Dimensions.font24)),
-                    ),
-                  );
-                },
-              ));
+              Get.toNamed(RouteHelper.getRegister());
             },
           ),
         ),
+        if(isLogin)
+        // My order
+          PopupMenuItem(
+            child: GestureDetector(
+              child: Text('My order'),
+              onTap: () {
+                if(isLogin) {
+                  Get.toNamed(RouteHelper.getMyOrder());
+                }
+              },
+            ),
+          ),
+        if(isLogin)
+        // Logout
+        PopupMenuItem(
+          child: GestureDetector(
+            child: Text('Logout'),
+            onTap: () {
+              if(isLogin) {
+
+                Get.find<AuthController>().logout().then((value) {
+                  if(value.error == 0) {
+                    showCustomSnackBar(title: 'Success',message: value.message!, isError: false);
+                    Get.offAndToNamed(RouteHelper.getInitial());
+                  } else {
+                    showCustomSnackBar(message: value.message!);
+                  }
+                });
+
+              }
+            },
+          ),
+        ),
+
       ],
     );
   }
