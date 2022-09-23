@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/response_model.dart';
 import 'package:library_user_app/app/Model/signin_body_model.dart';
 import 'package:library_user_app/app/Model/signup_body_model.dart';
+import 'package:library_user_app/app/Model/user_model.dart';
 import 'package:library_user_app/app/Repository/auth_repo.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -18,6 +19,7 @@ class AuthController extends GetxController implements GetxService {
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
         authRepo.saveUserTokenAddUpdateHeader(response.body['data']['token']);
+        authRepo.saveUser(response.body['data']['user']);
         responseModel = ResponseModel(error: response.body['error'], message:  response.body['message']);
     } else {
       responseModel = ResponseModel(error: response.body['error'], message:  response.body['message']);
@@ -34,6 +36,7 @@ class AuthController extends GetxController implements GetxService {
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
       authRepo.saveUserTokenAddUpdateHeader(response.body['data']['token']);
+      authRepo.saveUser(response.body['data']['user']);
       responseModel = ResponseModel(error: response.body['error'], message: response.body['message']);
     } else {
       responseModel = ResponseModel(error: response.body['error'], message: response.body['message']);
@@ -50,7 +53,8 @@ class AuthController extends GetxController implements GetxService {
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
       responseModel = ResponseModel(error: response.body['error'], message: response.body['message']);
-      clearUserTokenAndResetHeader();
+      authRepo.clearUserTokenAndResetHeader();
+      authRepo.clearUser();
     } else {
       responseModel = ResponseModel(error: response.body['error'], message: response.body['message']);
     }
@@ -59,16 +63,12 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  void saveUserPhoneAndPassword(String email, String password) {
-    authRepo.saveUserEmailAndPassword(email, password);
-  }
-
   bool isUserLoggedIn() {
     return authRepo.isUserLoggedIn();
   }
 
-  Future<bool> clearUserTokenAndResetHeader() {
-    return authRepo.clearUserTokenAndResetHeader();
+  String? getUserFullName() {
+      return authRepo.getUser().full_name?.toUpperCase();
   }
 
 }

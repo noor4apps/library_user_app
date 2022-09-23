@@ -6,14 +6,16 @@ import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 
 class PopupMenuAccount extends StatelessWidget {
-  var isLogin = Get.find<AuthController>().isUserLoggedIn();
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.find<AuthController>();
+    var isLogin = authController.isUserLoggedIn();
+
     return PopupMenuButton(
       icon: const Icon(Icons.person_outline),
       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
         // MY ACCOUNT
-        PopupMenuItem(child: Text('MY ACCOUNT')),
+        PopupMenuItem(child: Text('MY ACCOUNT ${isLogin ? authController.getUserFullName() : ""}')),
         // Divider
         PopupMenuDivider(),
         if(!isLogin)

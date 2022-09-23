@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/signin_body_model.dart';
 import 'package:library_user_app/app/Model/signup_body_model.dart';
+import 'package:library_user_app/app/Model/user_model.dart';
 import 'package:library_user_app/app/api_client.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,13 +35,18 @@ class AuthRepo {
     return await apiClient.getData(AppConstants.LOGOUT_URI);
   }
 
-  Future<void> saveUserEmailAndPassword(String email, String password) async {
-    try {
-      await sharedPreferences.setString(AppConstants.EMAIL, email);
-      await sharedPreferences.setString(AppConstants.PASSWORD, password);
-    } catch (e) {
-      throw e;
-    }
+  Future<bool> saveUser(Map userModel) async {
+    return await sharedPreferences.setString(AppConstants.USER, jsonEncode(userModel));
+  }
+
+  UserModel getUser() {
+    String? user = sharedPreferences.getString(AppConstants.USER);
+    return UserModel.fromJson(jsonDecode(user!));
+  }
+
+  Future<bool> clearUser() async {
+    await sharedPreferences.remove(AppConstants.USER);
+    return true;
   }
 
   Future<String> getUserToken() async {
