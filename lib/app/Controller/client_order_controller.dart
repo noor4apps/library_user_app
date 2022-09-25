@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/order_model.dart';
 import 'package:library_user_app/app/Repository/client_order_repo.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 
 class ClientOrderController extends GetxController implements GetxService {
@@ -11,6 +12,8 @@ class ClientOrderController extends GetxController implements GetxService {
   List<OrderModel> clientOrderList = [];
 
   bool isLoading = false;
+
+  bool isSend = true;
 
   Future<void> getClientOrderList() async {
     Response response = await clientOrderRepo.getClientOrderResponse();
@@ -29,4 +32,22 @@ class ClientOrderController extends GetxController implements GetxService {
     }
 
   }
+
+  Future<void> addOrder(int bookId) async {
+    if(isSend) {
+
+      isSend = false;
+      Response response = await clientOrderRepo.addOrderResponse(bookId);
+      if (response.statusCode == 200) {
+        showCustomSnackBar(title: 'Status', message: '${response.body['message']}', isError: false);
+      } else if (response.statusCode == 500) {
+        print('500 Internal Server Error');
+      } else {
+        showCustomSnackBar(message: '${response.body['message']}');
+      }
+      isSend = true;
+
+    }
+  }
+
 }

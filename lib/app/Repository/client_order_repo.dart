@@ -10,4 +10,8 @@ class ClientOrderRepo {
   Future<Response> getClientOrderResponse() async {
     return await apiClient.getData(AppConstants.CLIENT_ORDERS_URI);
   }
+
+  Future<Response> addOrderResponse(int bookId) async {
+    return await apiClient.postData(AppConstants.CLIENT_ADD_ORDERS_URI + bookId.toString(), {});
+  }
 }

@@ -16,6 +16,7 @@ dependencies:
   get: any
   flutter_image_slideshow: any
   shared_preferences: ^2.0.15
+  url_launcher: ^6.1.5
   
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_user_app/app/Controller/auth_controller.dart';
 import 'package:library_user_app/app/Controller/client_index_controller.dart';
+import 'package:library_user_app/app/Controller/client_order_controller.dart';
 import 'package:library_user_app/app/Model/book_model.dart';
 import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
@@ -9,6 +11,8 @@ import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/app_title.dart';
 import 'package:library_user_app/view/widget/popup_menu_account.dart';
 import 'package:library_user_app/view/widget/image_slide.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -136,11 +140,36 @@ class HomePage extends StatelessWidget {
                 Icon(Icons.star_border, color: AppColors.iconPrimary, size: Dimensions.iconSize16),
               ],
             ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border))
+            bookModel.is_pdf != true ?
+            IconButton(
+                onPressed: () {
+                  if(Get.find<AuthController>().isUserLoggedIn()) {
+                    Get.find<ClientOrderController>().addOrder(bookModel.id);
+                  } else {
+                    Get.toNamed(RouteHelper.getLogin());
+                  }
+                },
+                icon: Icon(Icons.favorite_border),
+            )
+                :
+            IconButton(
+                onPressed: () {
+                  launchURL(url: bookModel.url.toString());
+                },
+                icon: Icon(Icons.cloud_download_outlined)
+            )
           ],
         ),
       ),
     );
+  }
+
+  launchURL({required String url}) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
 }

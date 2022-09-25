@@ -16,6 +16,7 @@ class AppConstants {
   static const String LOGOUT_URI = "/api/auth/logout";
 
   static const String CLIENT_ORDERS_URI = "/api/client/orders";
+  static const String CLIENT_ADD_ORDERS_URI = "/api/client/orders/";
 
   static const String TOKEN = "token";
   static const String USER  = "user";
