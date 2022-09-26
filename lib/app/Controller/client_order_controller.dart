@@ -59,4 +59,21 @@ class ClientOrderController extends GetxController implements GetxService {
     }
   }
 
+  Future<void> destroyOrder(int bookId) async {
+    if(isSend) {
+      isSend = false;
+      Response response = await clientOrderRepo.destroyOrderResponse(bookId);
+      if (response.statusCode == 200) {
+        showCustomSnackBar(title: 'Status', message: '${response.body['message']}', isError: false);
+      } else if (response.statusCode == 500) {
+        print('500 Internal Server Error');
+      } else {
+        showCustomSnackBar(message: '${response.body['message']}');
+      }
+      isSend = true;
+      getClientOrderList();
+      update();
+    }
+  }
+
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Controller/client_order_controller.dart';
 import 'package:library_user_app/app/Model/order_model.dart';
+import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/image_banner.dart';
@@ -73,7 +74,7 @@ class OrdersPage extends StatelessWidget {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return buildOrderCard(index, clientOrder.clientOrderList[index]);
+                return buildOrderCard(index, clientOrder.clientOrderList[index], clientOrder);
               },
               separatorBuilder: (context, index) {
                 return SizedBox(width: Dimensions.width10);
@@ -90,7 +91,7 @@ class OrdersPage extends StatelessWidget {
     );
   }
 
-  Widget buildOrderCard(int index, OrderModel orderModel) {
+  Widget buildOrderCard(int index, OrderModel orderModel, _clientOrder) {
     var status = orderModel.status;
     return Container(
       width: Get.width / 1.2,
@@ -115,7 +116,9 @@ class OrdersPage extends StatelessWidget {
                   child: Align (
                     alignment: Alignment.topRight,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _clientOrder.destroyOrder(orderModel.id!);
+                      },
                       icon: Icon(Icons.clear, size: Dimensions.iconSize24, color: AppColors.bg),
                     ),
                   ),

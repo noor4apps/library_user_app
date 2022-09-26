@@ -14,4 +14,8 @@ class ClientOrderRepo {
   Future<Response> addOrderResponse(int bookId) async {
     return await apiClient.postData(AppConstants.CLIENT_ADD_ORDERS_URI + bookId.toString(), {});
   }
+
+  Future<Response> destroyOrderResponse(int bookId) async {
+    return await apiClient.deleteData(AppConstants.CLIENT_DESTROY_ORDERS_URI + bookId.toString());
+  }
 }

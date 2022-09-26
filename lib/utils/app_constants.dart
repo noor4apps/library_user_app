@@ -17,6 +17,7 @@ class AppConstants {
 
   static const String CLIENT_ORDERS_URI = "/api/client/orders";
   static const String CLIENT_ADD_ORDERS_URI = "/api/client/orders/";
+  static const String CLIENT_DESTROY_ORDERS_URI = "/api/client/orders/";
 
   static const String TOKEN = "token";
   static const String USER  = "user";
