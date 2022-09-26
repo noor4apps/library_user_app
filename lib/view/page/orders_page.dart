@@ -112,7 +112,7 @@ class OrdersPage extends StatelessWidget {
                 // clear order
                 status == 'submitting' ?
                 Container(
-                  height: Dimensions.height30,
+                  height: Dimensions.height15,
                   child: Align (
                     alignment: Alignment.topRight,
                     child: IconButton(
@@ -122,11 +122,11 @@ class OrdersPage extends StatelessWidget {
                       icon: Icon(Icons.clear, size: Dimensions.iconSize24, color: AppColors.bg),
                     ),
                   ),
-                ):Container(height: Dimensions.height30),
+                ):Container(height: Dimensions.height15),
 
                 // book name
                 Container(
-                  height: Dimensions.height30,
+                  height: Dimensions.height45 + 5,
                   child: Text('${orderModel.books}', style: TextStyle(fontSize: Dimensions.font20, color: AppColors.bg)),
                 ),
 
