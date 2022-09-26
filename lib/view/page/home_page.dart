@@ -11,8 +11,6 @@ import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/app_title.dart';
 import 'package:library_user_app/view/widget/popup_menu_account.dart';
 import 'package:library_user_app/view/widget/image_slide.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -154,7 +152,7 @@ class HomePage extends StatelessWidget {
                 :
             IconButton(
                 onPressed: () {
-                  launchURL(url: bookModel.url.toString());
+                  Get.find<ClientOrderController>().launchURL(url: bookModel.url.toString());
                 },
                 icon: Icon(Icons.cloud_download_outlined)
             )
@@ -162,14 +160,6 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  launchURL({required String url}) async {
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 
 }

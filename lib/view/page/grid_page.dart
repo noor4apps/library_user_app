@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:library_user_app/app/Controller/auth_controller.dart';
+import 'package:library_user_app/app/Controller/client_order_controller.dart';
 import 'package:library_user_app/app/Controller/client_paginate_controller.dart';
 import 'package:library_user_app/app/Model/book_model.dart';
 import 'package:library_user_app/helper/route_helper.dart';
@@ -146,7 +148,24 @@ class GridPage extends StatelessWidget {
                       Text('${bookModel.quantity}', style: TextStyle(fontSize: Dimensions.font14, height: 1.3, color: AppColors.textPrimary))
                     ],
                   ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border, color: AppColors.iconPrimary, size: Dimensions.iconSize24))
+                  bookModel.is_pdf != true ?
+                  IconButton(
+                    onPressed: () {
+                      if(Get.find<AuthController>().isUserLoggedIn()) {
+                        Get.find<ClientOrderController>().addOrder(bookModel.id);
+                      } else {
+                        Get.toNamed(RouteHelper.getLogin());
+                      }
+                    },
+                    icon: Icon(Icons.favorite_border),
+                  )
+                      :
+                  IconButton(
+                      onPressed: () {
+                        Get.find<ClientOrderController>().launchURL(url: bookModel.url.toString());
+                      },
+                      icon: Icon(Icons.cloud_download_outlined)
+                  )
                 ],
               ),
             ),
