@@ -105,7 +105,7 @@ class HomePage extends StatelessWidget {
   Widget buildBookCard(int index,BookModel bookModel) {
     return InkWell(
       onTap: () {
-        Get.toNamed(RouteHelper.getBook(index));
+        Get.toNamed(RouteHelper.getBook(bookModel.id));
       },
       child: Container(
         height: double.infinity,

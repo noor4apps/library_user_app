@@ -99,7 +99,7 @@ class GridPage extends StatelessWidget {
   Widget buildBookCard({required int index, required BookModel bookModel}) {
     return InkWell(
       onTap: () {
-        Get.toNamed(RouteHelper.getBook(index));
+        Get.toNamed(RouteHelper.getBook(bookModel.id));
       },
       child: Container(
         width: Get.width - 40,

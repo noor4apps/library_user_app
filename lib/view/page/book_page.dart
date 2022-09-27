@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:library_user_app/app/Controller/auth_controller.dart';
 import 'package:library_user_app/app/Controller/client_index_controller.dart';
 import 'package:library_user_app/app/Controller/client_order_controller.dart';
+import 'package:library_user_app/app/Controller/client_single_controller.dart';
+import 'package:library_user_app/app/Model/book_single_model.dart';
 import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
@@ -16,6 +18,8 @@ class BookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<ClientSingleController>().getClientSingleBook(pageId);
+
     return Scaffold(
       appBar: AppBar(
         // logo
@@ -42,7 +46,10 @@ class BookPage extends StatelessWidget {
             ImageBanner(img: '2.jpg'),
             SizedBox(height: Dimensions.height10),
             // ListView horizontal
-            buildBookCard(),
+            GetBuilder<ClientSingleController>(builder: (clientSingle) {
+              return clientSingle.isLoading ?
+              buildBookCard(clientSingle.singleBook) : CircularProgressIndicator(color: AppColors.textPrimary);
+            }),
           ],
         ),
       ),
@@ -63,8 +70,7 @@ class BookPage extends StatelessWidget {
     );
   }
 
-  Widget buildBookCard() {
-    var book = Get.find<ClientIndexController>().clientIndexList[pageId];
+  Widget buildBookCard(BookSingleModel book) {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -179,22 +185,23 @@ class BookPage extends StatelessWidget {
                   children: [
                     Text('Authors:', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold)),
                     Wrap(
-                      spacing: 1,
-                      runSpacing: 1,
-                      children: ['Mr. Merlin Dickens', 'Lazaro Gorczany DDS', 'Lazaro Gorczany DDS'].map((String n) => Chip(
-                        label: Text(n),
-                      ),
-                      ).toList(),
+                      spacing: 5,
+                      runSpacing: -10,
+                      children: [
+                        ...book.authors!.map((b) {
+                          return Chip(label: Text('${b.name}', style: TextStyle(fontSize: 13)));
+                        })
+                      ],
                     ),
                     Text('Categories :', style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold)),
                     Wrap(
-                      spacing: 1,
-                      runSpacing: 1,
-                      children: ['Atque vel.', 'Pariatur laboriosam qui.', 'Ut labore.'].map((String n) => Chip(
-                        avatar: CircleAvatar(child: Text(n.substring(0,1))),
-                        label: Text(n),
-                      ),
-                      ).toList(),
+                      spacing: 5,
+                      runSpacing: -10,
+                      children: [
+                        ...book.categories!.map((c) {
+                          return Chip(label: Text('${c.name}', style: TextStyle(fontSize: 13)));
+                        })
+                      ],
                     )
                   ],
                 ),
@@ -205,5 +212,4 @@ class BookPage extends StatelessWidget {
       ),
     );
   }
-
 }

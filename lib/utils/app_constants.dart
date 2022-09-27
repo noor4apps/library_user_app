@@ -10,6 +10,7 @@ class AppConstants {
 
   static const String CLIENT_INDEX_URL = '/api/client';
   static const String CLIENT_PAGINATE_URL = '/api/client/grid';
+  static const String CLIENT_SINGLE_URL = '/api/client/single/';
 
   static const String REGISTRATION_URI = "/api/auth/register";
   static const String LOGIN_URI = "/api/auth/login";
