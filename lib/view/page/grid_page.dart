@@ -8,91 +8,42 @@ import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
-import 'package:library_user_app/view/widget/image_banner.dart';
-import 'package:library_user_app/view/widget/popup_menu_account.dart';
-
+//
 class GridPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // logo
-        leading: Builder(
-          builder: (BuildContext context) {
-            return Image(image: AssetImage('assets/image/icons/logo.png'));
-          },
-        ),
-        actions: <Widget>[
-          // PopupMenuAccount
-          PopupMenuAccount(),
-          // Mean Menu
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // ImageSlideshow
-            ImageBanner(img: '9.jpg'),
-            SizedBox(height: Dimensions.height10),
-            // ListView horizontal
-            buildBookList(),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Material(
-        child: Container(
-            padding: EdgeInsets.all(Dimensions.width5),
-            color: AppColors.footer,
-            height: Dimensions.height85,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('There are many variations of passages of Lorem Ipsum available', style: TextStyle(fontSize: Dimensions.font14, color: AppColors.textPrimary), overflow: TextOverflow.ellipsis, maxLines: 1)
-              ],
-            )
-        ),
-      ),
-    );
-  }
-
-  Widget buildBookList() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 10),
-        GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
-          return clientPaginate.isLoading ?
+        appBar: AppBar(title: Text('All books')),
+        body: GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
+          return clientPaginate.isLoading
+              ?
+          CircularProgressIndicator(color: AppColors.textPrimary)
+              :
           Container(
-            height: Get.height / 1.8,
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: ListView.separated(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: false,
-              itemBuilder: (context, index) {
-                int halfIndex = clientPaginate.clientPaginateList.length ~/ 2;
-                int index2 = halfIndex + index;
-                return Column(
-                  children: [
-                    buildBookCard(index: index, bookModel: clientPaginate.clientPaginateList[index]),
-                    SizedBox(height: 10),
-                    buildBookCard(index: index2,bookModel: clientPaginate.clientPaginateList[index2])
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(width: 10);
-              },
-              itemCount: clientPaginate.clientPaginateList.length ~/ 2,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListView.separated(
+                    physics: NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return buildBookCard(
+                        index: index,
+                        bookModel: clientPaginate.clientPaginateList[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 10);
+                      },
+                    itemCount: clientPaginate.clientPaginateList.length,
+                  ),
+                ],
+              ),
             ),
-          ) : CircularProgressIndicator(color: AppColors.textPrimary);
-        })
-      ],
+          );
+        }),
     );
   }
 
@@ -103,7 +54,7 @@ class GridPage extends StatelessWidget {
       },
       child: Container(
         width: Get.width - 40,
-        height: Get.height / 3.7,
+        height: Get.height / 4,
         child: Row(
           children: [
             Container(
@@ -174,5 +125,4 @@ class GridPage extends StatelessWidget {
       ),
     );
   }
-
 }
