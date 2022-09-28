@@ -7,7 +7,7 @@ class ClientPaginateRepo extends GetxService {
 
   ClientPaginateRepo({required this.apiClient});
 
-  Future<Response> getClientPaginateResponse() async {
-    return await apiClient.getData(AppConstants.CLIENT_PAGINATE_URL);
+  Future<Response> getClientPaginateResponse({int page = 1}) async {
+    return await apiClient.getData(AppConstants.CLIENT_PAGINATE_URL, query: {'page': page.toString()});
   }
 }

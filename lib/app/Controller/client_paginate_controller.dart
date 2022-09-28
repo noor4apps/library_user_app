@@ -16,17 +16,27 @@ class ClientPaginateController extends GetxController {
 
   bool get isLoading => _isLoading;
 
-  Future<void> getClientPaginateList() async {
-    Response response = await clientPaginateRepo.getClientPaginateResponse();
+  bool isLoadingPagination = false;
+  int currentPage = 1;
+  int lastPage = 1;
+
+  Future<void> getClientPaginateList({int page = 1}) async {
+    Response response = await clientPaginateRepo.getClientPaginateResponse(page: page);
     if (response.statusCode == 200) {
-      clientPaginateList.clear();
+      if (page == 1) {
+        clientPaginateList.clear();
+        _isLoading = true;
+        currentPage = 1;
+        update();
+      }
       clientPaginateList.addAll(BookPaginate.fromJson(response.body).bookList!);
-      _isLoading = true;
+
+      lastPage = BookPaginate.fromJson(response.body).lastPage!;
+
+      _isLoading = false;
+      isLoadingPagination = false;
       update();
-    } else if (response.isOk == false) {
-      showCustomSnackBar(message: 'Server not found');
-      print('Server not found');
-    } else if (response.statusCode == 500) {
+    }  else if (response.statusCode == 500) {
       showCustomSnackBar(message: '500 Internal Server Error');
       print('500 Internal Server Error');
     } else {

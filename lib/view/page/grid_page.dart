@@ -8,42 +8,81 @@ import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
-//
-class GridPage extends StatelessWidget {
+
+class GridPage extends StatefulWidget {
+  @override
+  State<GridPage> createState() => _GridPageState();
+}
+
+class _GridPageState extends State<GridPage> {
+  final clientPaginateController = Get.find<ClientPaginateController>();
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    clientPaginateController.getClientPaginateList();
+
+    scrollController.addListener(() {
+      var sControllerOffset = scrollController.offset;
+      var sControllerMax = scrollController.position.maxScrollExtent - 100;
+      var isLoadingPagination = clientPaginateController.isLoadingPagination;
+      var hasMorePages = clientPaginateController.currentPage < clientPaginateController.lastPage;
+
+      if (sControllerOffset > sControllerMax && isLoadingPagination == false && hasMorePages) {
+        clientPaginateController.isLoadingPagination = true;
+        clientPaginateController.currentPage++;
+
+        clientPaginateController.getClientPaginateList(page: clientPaginateController.currentPage);
+      }
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('All books')),
-        body: GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
-          return clientPaginate.isLoading
-              ?
-          CircularProgressIndicator(color: AppColors.textPrimary)
-              :
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return buildBookCard(
-                        index: index,
-                        bookModel: clientPaginate.clientPaginateList[index],
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 10);
-                      },
-                    itemCount: clientPaginate.clientPaginateList.length,
+      appBar: AppBar(title: Text('All books')),
+      body: GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
+        return clientPaginate.isLoading
+            ?
+        CircularProgressIndicator(color: AppColors.textPrimary)
+            :
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: [
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return buildBookCard(
+                      index: index,
+                      bookModel: clientPaginate.clientPaginateList[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 10);
+                  },
+                  itemCount: clientPaginate.clientPaginateList.length,
+                ),
+                Visibility(
+                  visible: !clientPaginate.isLoadingPagination,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    width: 40,
+                    height: 40,
+                    child: Center(child: CircularProgressIndicator()),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        }),
+          ),
+        );
+      }),
     );
   }
 
