@@ -9,7 +9,39 @@ import 'package:library_user_app/view/widget/image_banner.dart';
 import 'package:library_user_app/view/widget/no_data.dart';
 import 'package:library_user_app/view/widget/popup_menu_account.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
+  @override
+  State<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+  late ScrollController _controller;
+
+  Future<void> _loadResource() async {
+    await Get.find<ClientOrderController>().getClientOrderList();
+  }
+
+  _scrollListener() {
+    // reach the end right
+    if (_controller.offset >= _controller.position.maxScrollExtent && !_controller.position.outOfRange) {
+      setState(() {
+        _loadResource();
+      });
+    }
+    // reach the end left
+    // if (_controller.offset <= _controller.position.minScrollExtent && !_controller.position.outOfRange) {
+    //   setState(() {
+    //     _loadResource();
+    //   });
+    // }
+  }
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Get.find<ClientOrderController>().getClientOrderList();
@@ -70,16 +102,20 @@ class OrdersPage extends StatelessWidget {
               ?
           Container(
             height: Get.height / 2,
-            child: ListView.separated(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return buildOrderCard(index, clientOrder.clientOrderList[index], clientOrder);
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(width: Dimensions.width10);
-              },
-              itemCount: clientOrder.clientOrderList.length,
+            child: RefreshIndicator(
+              child: ListView.separated(
+                controller: _controller,
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return buildOrderCard(index, clientOrder.clientOrderList[index], clientOrder);
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(width: Dimensions.width10);
+                },
+                itemCount: clientOrder.clientOrderList.length,
+              ),
+              onRefresh: _loadResource,
             ),
           )
               :
