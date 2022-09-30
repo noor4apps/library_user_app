@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/order_model.dart';
 import 'package:library_user_app/app/Repository/client_order_repo.dart';
@@ -74,6 +75,26 @@ class ClientOrderController extends GetxController implements GetxService {
       getClientOrderList();
       update();
     }
+  }
+
+  late ScrollController scrollController;
+
+  _scrollListener() {
+    // reach the end right
+    if (scrollController.offset >= scrollController.position.maxScrollExtent && !scrollController.position.outOfRange) {
+      getClientOrderList();
+    }
+    // reach the end left
+    // if (_controller.offset <= _controller.position.minScrollExtent && !_controller.position.outOfRange) {
+    // getClientOrderList()
+    // }
+  }
+
+  @override
+  void onInit() {
+    scrollController = ScrollController();
+    scrollController.addListener(_scrollListener);
+    super.onInit();
   }
 
 }

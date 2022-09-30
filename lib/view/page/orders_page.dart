@@ -9,39 +9,8 @@ import 'package:library_user_app/view/widget/image_banner.dart';
 import 'package:library_user_app/view/widget/no_data.dart';
 import 'package:library_user_app/view/widget/popup_menu_account.dart';
 
-class OrdersPage extends StatefulWidget {
-  @override
-  State<OrdersPage> createState() => _OrdersPageState();
-}
+class OrdersPage extends StatelessWidget {
 
-class _OrdersPageState extends State<OrdersPage> {
-  late ScrollController _controller;
-
-  Future<void> _loadResource() async {
-    await Get.find<ClientOrderController>().getClientOrderList();
-  }
-
-  _scrollListener() {
-    // reach the end right
-    if (_controller.offset >= _controller.position.maxScrollExtent && !_controller.position.outOfRange) {
-      setState(() {
-        _loadResource();
-      });
-    }
-    // reach the end left
-    // if (_controller.offset <= _controller.position.minScrollExtent && !_controller.position.outOfRange) {
-    //   setState(() {
-    //     _loadResource();
-    //   });
-    // }
-  }
-
-  @override
-  void initState() {
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     Get.find<ClientOrderController>().getClientOrderList();
@@ -104,7 +73,7 @@ class _OrdersPageState extends State<OrdersPage> {
             height: Get.height / 2,
             child: RefreshIndicator(
               child: ListView.separated(
-                controller: _controller,
+                controller: clientOrder.scrollController,
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
@@ -115,7 +84,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 },
                 itemCount: clientOrder.clientOrderList.length,
               ),
-              onRefresh: _loadResource,
+              onRefresh: clientOrder.getClientOrderList,
             ),
           )
               :
