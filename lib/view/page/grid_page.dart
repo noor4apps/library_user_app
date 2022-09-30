@@ -8,42 +8,56 @@ import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
-//
+
 class GridPage extends StatelessWidget {
+  @override
+
+  final clientPaginateController = Get.find<ClientPaginateController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('All books')),
-        body: GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
-          return clientPaginate.isLoading
-              ?
-          CircularProgressIndicator(color: AppColors.textPrimary)
-              :
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return buildBookCard(
-                        index: index,
-                        bookModel: clientPaginate.clientPaginateList[index],
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 10);
-                      },
-                    itemCount: clientPaginate.clientPaginateList.length,
+      appBar: AppBar(title: Text('All books')),
+      body: GetBuilder<ClientPaginateController>(builder: (clientPaginate) {
+        return clientPaginate.isLoading
+            ?
+        CircularProgressIndicator(color: AppColors.textPrimary)
+            :
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: SingleChildScrollView(
+            controller: clientPaginate.scrollController,
+            child: Column(
+              children: [
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return buildBookCard(
+                      index: index,
+                      bookModel: clientPaginate.clientPaginateList[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 10);
+                  },
+                  itemCount: clientPaginate.clientPaginateList.length,
+                ),
+                Visibility(
+                  visible: !clientPaginate.isLoadingPagination,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    width: 40,
+                    height: 40,
+                    child: Center(child: CircularProgressIndicator()),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        }),
+          ),
+        );
+      }),
     );
   }
 
