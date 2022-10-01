@@ -6,7 +6,7 @@ class AppTextField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final Color iconColor;
-  bool isObscure;
+  final bool isObscure;
 
   AppTextField({
     Key? key,

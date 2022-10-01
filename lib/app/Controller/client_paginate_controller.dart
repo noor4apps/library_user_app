@@ -4,7 +4,7 @@ import 'package:library_user_app/app/Model/book_model.dart';
 import 'package:library_user_app/app/Repository/client_paginate_repo.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 
-class ClientPaginateController extends GetxController {
+class ClientPaginateController extends GetxController implements GetxService {
   final ClientPaginateRepo clientPaginateRepo;
 
   ClientPaginateController({required this.clientPaginateRepo});

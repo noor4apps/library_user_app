@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:library_user_app/app/Controller/client_index_controller.dart';
-import 'package:library_user_app/app/Controller/client_order_controller.dart';
-import 'package:library_user_app/app/Controller/client_paginate_controller.dart';
 import 'package:library_user_app/helper/route_helper.dart';
-import 'package:library_user_app/view/page/grid_page.dart';
 import 'package:library_user_app/helper/dependencies.dart' as dep;
 import 'package:library_user_app/view/page/home_page.dart';
-import 'package:library_user_app/view/page/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<ClientPaginateController>().getClientPaginateList();
-    Get.find<ClientIndexController>().getClientIndexList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

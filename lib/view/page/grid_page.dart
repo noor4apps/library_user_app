@@ -12,7 +12,7 @@ import 'package:library_user_app/utils/dimensions.dart';
 class GridPage extends StatelessWidget {
   @override
 
-  final clientPaginateController = Get.find<ClientPaginateController>();
+  // final clientPaginateController = Get.find<ClientPaginateController>();
 
   @override
   Widget build(BuildContext context) {

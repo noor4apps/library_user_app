@@ -6,7 +6,6 @@ import 'package:library_user_app/app/Model/signin_body_model.dart';
 import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
-import 'package:library_user_app/view/page/register_page.dart';
 import 'package:library_user_app/view/widget/app_text_field.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 

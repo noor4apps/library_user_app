@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/order_model.dart';
 import 'package:library_user_app/app/Repository/client_order_repo.dart';
-import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -92,6 +91,8 @@ class ClientOrderController extends GetxController implements GetxService {
 
   @override
   void onInit() {
+    getClientOrderList();
+
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
     super.onInit();

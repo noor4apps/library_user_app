@@ -35,4 +35,10 @@ class ClientIndexController extends GetxController {
       print('message: ${Book.fromJson(response.body).message}');
     }
   }
+
+  @override
+  void onInit() {
+    getClientIndexList();
+    super.onInit();
+  }
 }

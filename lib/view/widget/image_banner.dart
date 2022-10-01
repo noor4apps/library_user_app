@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ImageBanner extends StatelessWidget {
-  String img;
+  final String img;
 
   ImageBanner({required String this.img, Key? key}) : super(key: key);
 

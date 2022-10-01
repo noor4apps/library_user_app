@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Controller/client_order_controller.dart';
 import 'package:library_user_app/app/Model/order_model.dart';
-import 'package:library_user_app/helper/route_helper.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 import 'package:library_user_app/view/widget/image_banner.dart';
@@ -13,7 +12,7 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<ClientOrderController>().getClientOrderList();
+    // Get.find<ClientOrderController>().getClientOrderList();
 
     return Scaffold(
       appBar: AppBar(

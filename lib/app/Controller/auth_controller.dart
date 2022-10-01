@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/response_model.dart';
 import 'package:library_user_app/app/Model/signin_body_model.dart';
 import 'package:library_user_app/app/Model/signup_body_model.dart';
-import 'package:library_user_app/app/Model/user_model.dart';
 import 'package:library_user_app/app/Repository/auth_repo.dart';
 
 class AuthController extends GetxController implements GetxService {
