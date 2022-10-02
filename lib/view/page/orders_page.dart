@@ -115,16 +115,13 @@ class OrdersPage extends StatelessWidget {
 
                 // clear order
                 status == 'submitting' ?
-                Container(
-                  height: Dimensions.height15,
-                  child: Align (
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      onPressed: () {
-                        _clientOrder.destroyOrder(orderModel.id!);
-                      },
-                      icon: Icon(Icons.clear, size: Dimensions.iconSize24, color: AppColors.bg),
-                    ),
+                Align (
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {
+                      _clientOrder.destroyOrder(orderModel.id!);
+                    },
+                    icon: Icon(Icons.clear, size: Dimensions.iconSize24 + 10, color: AppColors.bg),
                   ),
                 ):Container(height: Dimensions.height15),
 

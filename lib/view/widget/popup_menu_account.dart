@@ -43,9 +43,7 @@ class PopupMenuAccount extends StatelessWidget {
             child: GestureDetector(
               child: Text('My order'),
               onTap: () {
-                if(isLogin) {
-                  Get.toNamed(RouteHelper.getMyOrder());
-                }
+                Get.toNamed(RouteHelper.getMyOrder());
               },
             ),
           ),
@@ -55,18 +53,16 @@ class PopupMenuAccount extends StatelessWidget {
           child: GestureDetector(
             child: Text('Logout'),
             onTap: () {
-              if(isLogin) {
 
-                Get.find<AuthController>().logout().then((value) {
-                  if(value.error == 0) {
-                    showCustomSnackBar(title: 'Success',message: value.message!, isError: false);
-                    Get.offAndToNamed(RouteHelper.getInitial());
-                  } else {
-                    showCustomSnackBar(message: value.message!);
-                  }
-                });
+              Get.find<AuthController>().logout().then((value) {
+                if(value.error == 0) {
+                  showCustomSnackBar(title: 'Success',message: value.message!, isError: false);
+                  Get.offAndToNamed(RouteHelper.getInitial());
+                } else {
+                  showCustomSnackBar(message: value.message!);
+                }
+              });
 
-              }
             },
           ),
         ),
