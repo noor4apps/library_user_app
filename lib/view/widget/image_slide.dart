@@ -39,7 +39,7 @@ class ImageSlide extends StatelessWidget {
                   AppTitle('favorite', 'Book'),
                   AppTitle('from', 'Here'),
                   TextButton(onPressed: () {
-                    Get.toNamed(RouteHelper.getGrid());
+                    Get.toNamed(RouteHelper.getPaginate());
                   }, child: Text('choose now  --->', style: TextStyle(color: AppColors.textPrimary)))
                 ],
               ),
@@ -66,7 +66,7 @@ class ImageSlide extends StatelessWidget {
                   AppTitle('favorite', 'Book'),
                   AppTitle('from', 'Here'),
                   TextButton(onPressed: () {
-                    Get.toNamed(RouteHelper.getGrid());
+                    Get.toNamed(RouteHelper.getPaginate());
                   }, child: Text('choose now  --->', style: TextStyle(color: AppColors.textPrimary)))
                 ],
               ),

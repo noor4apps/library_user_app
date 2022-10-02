@@ -9,7 +9,7 @@ import 'package:library_user_app/utils/app_constants.dart';
 import 'package:library_user_app/utils/colors.dart';
 import 'package:library_user_app/utils/dimensions.dart';
 
-class GridPage extends StatelessWidget {
+class PaginatePage extends StatelessWidget {
   @override
 
   // final clientPaginateController = Get.find<ClientPaginateController>();
