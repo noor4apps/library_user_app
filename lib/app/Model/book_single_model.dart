@@ -1,5 +1,5 @@
-import 'package:library_user_app/app/Model/author.dart';
-import 'package:library_user_app/app/Model/category.dart';
+import 'package:library_user_app/app/Model/author_model.dart';
+import 'package:library_user_app/app/Model/category_model.dart';
 
 class BookSingle {
   BookSingleModel? _bookSingle;
@@ -31,8 +31,8 @@ class BookSingleModel {
   bool? is_pdf;
   String? url;
 
-  List<Author>? authors = [];
-  List<Category>? categories = [];
+  List<AuthorModel>? authors = [];
+  List<CategoryModel>? categories = [];
 
   BookSingleModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -46,7 +46,7 @@ class BookSingleModel {
     is_pdf = json['is_pdf'];
     url = json['url'];
 
-    json['authors'].forEach((e) => authors?.add(Author.fromJson(e)));
-    json['categories'].forEach((e) => categories?.add(Category.fromJson(e)));
+    json['authors'].forEach((e) => authors?.add(AuthorModel.fromJson(e)));
+    json['categories'].forEach((e) => categories?.add(CategoryModel.fromJson(e)));
   }
 }
