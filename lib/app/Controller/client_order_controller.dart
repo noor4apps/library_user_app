@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:library_user_app/app/Model/order_model.dart';
 import 'package:library_user_app/app/Repository/client_order_repo.dart';
+import 'package:library_user_app/app/Response/order_response.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -20,7 +21,7 @@ class ClientOrderController extends GetxController implements GetxService {
     Response response = await clientOrderRepo.getClientOrderResponse();
     if(response.statusCode == 200) {
       clientOrderList.clear();
-      clientOrderList.addAll(Order.fromJson(response.body).orderList!);
+      clientOrderList.addAll(OrderResponse.fromJson(response.body).orderList!);
       isLoading = true;
       update();
     } else if (response.isOk == false) {
@@ -29,7 +30,7 @@ class ClientOrderController extends GetxController implements GetxService {
     } else if (response.statusCode == 500) {
       print('500 Internal Server Error');
     } else {
-      showCustomSnackBar(message: '${Order.fromJson(response.body).message}');
+      showCustomSnackBar(message: '${OrderResponse.fromJson(response.body).message}');
     }
 
   }
@@ -91,8 +92,6 @@ class ClientOrderController extends GetxController implements GetxService {
 
   @override
   void onInit() {
-    getClientOrderList();
-
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
     super.onInit();

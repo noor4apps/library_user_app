@@ -12,7 +12,7 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.find<ClientOrderController>().getClientOrderList();
+    Get.find<ClientOrderController>().getClientOrderList();
 
     return Scaffold(
       appBar: AppBar(

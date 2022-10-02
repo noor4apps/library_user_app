@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:library_user_app/app/Model/book_model.dart';
 import 'package:library_user_app/app/Repository/client_paginate_repo.dart';
+import 'package:library_user_app/app/Response/book_paginate_response.dart';
 import 'package:library_user_app/view/widget/show_custom_snackbar.dart';
 
 class ClientPaginateController extends GetxController implements GetxService {
@@ -30,9 +30,9 @@ class ClientPaginateController extends GetxController implements GetxService {
         currentPage = 1;
         update();
       }
-      clientPaginateList.addAll(BookPaginate.fromJson(response.body).bookList!);
+      clientPaginateList.addAll(BookPaginateResponse.fromJson(response.body).bookList!);
 
-      lastPage = BookPaginate.fromJson(response.body).lastPage!;
+      lastPage = BookPaginateResponse.fromJson(response.body).lastPage!;
 
       _isLoading = false;
       isLoadingPagination = false;
@@ -41,9 +41,9 @@ class ClientPaginateController extends GetxController implements GetxService {
       showCustomSnackBar(message: '500 Internal Server Error');
       print('500 Internal Server Error');
     } else {
-      showCustomSnackBar(message: '${BookPaginate.fromJson(response.body).message}');
-      print('error: ${BookPaginate.fromJson(response.body).error}');
-      print('message: ${BookPaginate.fromJson(response.body).message}');
+      showCustomSnackBar(message: '${BookPaginateResponse.fromJson(response.body).message}');
+      print('error: ${BookPaginateResponse.fromJson(response.body).error}');
+      print('message: ${BookPaginateResponse.fromJson(response.body).message}');
     }
   }
 
