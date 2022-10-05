@@ -24,13 +24,6 @@ class ClientOrderController extends GetxController implements GetxService {
       clientOrderList.addAll(OrderResponse.fromJson(response.body).orderList!);
       isLoading = true;
       update();
-    } else if (response.isOk == false) {
-      showCustomSnackBar(message: 'Server not found');
-      print('Server not found');
-    } else if (response.statusCode == 500) {
-      print('500 Internal Server Error');
-    } else {
-      showCustomSnackBar(message: '${OrderResponse.fromJson(response.body).message}');
     }
 
   }
@@ -42,10 +35,6 @@ class ClientOrderController extends GetxController implements GetxService {
       Response response = await clientOrderRepo.addOrderResponse(bookId);
       if (response.statusCode == 200) {
         showCustomSnackBar(title: 'Status', message: '${response.body['message']}', isError: false);
-      } else if (response.statusCode == 500) {
-        print('500 Internal Server Error');
-      } else {
-        showCustomSnackBar(message: '${response.body['message']}');
       }
       isSend = true;
 
@@ -66,10 +55,6 @@ class ClientOrderController extends GetxController implements GetxService {
       Response response = await clientOrderRepo.destroyOrderResponse(bookId);
       if (response.statusCode == 200) {
         showCustomSnackBar(title: 'Status', message: '${response.body['message']}', isError: false);
-      } else if (response.statusCode == 500) {
-        print('500 Internal Server Error');
-      } else {
-        showCustomSnackBar(message: '${response.body['message']}');
       }
       isSend = true;
       getClientOrderList();

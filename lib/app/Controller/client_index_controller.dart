@@ -23,16 +23,6 @@ class ClientIndexController extends GetxController {
       clientIndexList.addAll(BookIndexResponse.fromJson(response.body).bookList!);
       _isLoading = true;
       update();
-    } else if (response.isOk == false) {
-      showCustomSnackBar(message: 'Server not found');
-      print('Server not found');
-    } else if (response.statusCode == 500) {
-      showCustomSnackBar(message: '500 Internal Server Error');
-      print('500 Internal Server Error');
-    } else {
-      showCustomSnackBar(message: '${BookIndexResponse.fromJson(response.body).message}');
-      print('error: ${BookIndexResponse.fromJson(response.body).error}');
-      print('message: ${BookIndexResponse.fromJson(response.body).message}');
     }
   }
 

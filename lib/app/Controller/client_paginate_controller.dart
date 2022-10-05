@@ -37,13 +37,6 @@ class ClientPaginateController extends GetxController implements GetxService {
       _isLoading = false;
       isLoadingPagination = false;
       update();
-    }  else if (response.statusCode == 500) {
-      showCustomSnackBar(message: '500 Internal Server Error');
-      print('500 Internal Server Error');
-    } else {
-      showCustomSnackBar(message: '${BookPaginateResponse.fromJson(response.body).message}');
-      print('error: ${BookPaginateResponse.fromJson(response.body).error}');
-      print('message: ${BookPaginateResponse.fromJson(response.body).message}');
     }
   }
 

@@ -23,10 +23,6 @@ class ClientSingleController extends GetxController implements GetxService {
       _singleBook = BookSingleResponse.fromJson(response.body).bookSingle!;
       _isLoading = true;
       update();
-    } else if (response.statusCode == 500) {
-      print('500 Internal Server Error');
-    } else {
-      showCustomSnackBar(message: '${response.body['message']}');
     }
   }
 }
